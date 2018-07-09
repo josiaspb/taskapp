@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block titulo %}
+    Usuario
+{% endblock %}
+
+{% block menu_usuario %}class="active"{% endblock %}
+
+{% block body %}
+
+    <h1>Editando Usuario</h1>
+
+    <form>
+        <div class="form-group">
+            <label>Nombre</label>
+            <input class="form-control" id="nombre" value="{{ usuario.nombre }}">
+        </div>
+
+        <div class="form-group">
+            <label>Username</label>
+            <input class="form-control" id="username" value="{{ usuario.username }}">
+        </div>
+
+        <input type="hidden" id="id" value="{{ usuario.id }}">
+
+
+        <button type="button" class="btn btn-primary" onclick="guardar()">Guardar</button>
+    </form>
+
+    <script>
+
+        function guardar() {
+
+            var id = $('#id').val();
+            var nombre = $('#nombre').val();
+            var username = $('#username').val();
+
+            var data = {
+                nombre: nombre,
+                username: username
+            };
+
+            $.ajax({
+                url: '/app_dev.php/rest/usuario/' + id,
+                type: 'PUT',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+
+        }
+
+    </script>
+
+{% endblock %}
